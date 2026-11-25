@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Magic Math Box — Petualangan Matematika</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Nunito:wght@400;600;700;800;900&display=swap');
+:root{--ink:#302653;--purple:#6d4bd1;--gold:#ffd166;--cream:#fff9e9;--pink:#ff8fa3;--blue:#77c9f2;--green:#91d78a}
+*{box-sizing:border-box}body{margin:0;font-family:'Nunito',sans-serif;color:var(--ink);background:#f6f1ff;min-height:100vh}
+button{font:inherit;cursor:pointer;border:0}button:focus-visible{outline:4px solid #302653;outline-offset:3px}
+#app{min-height:100vh;overflow:hidden;position:relative;background:radial-gradient(circle at 10% 10%,#fff 0 4%,transparent 5%),linear-gradient(145deg,#d9f4ff 0%,#f7e8ff 52%,#fff1c7 100%)}
+.bg-star{position:absolute;color:#fff;font-size:24px;animation:twinkle 2.4s ease-in-out infinite alternate;pointer-events:none}
+@keyframes twinkle{from{opacity:.4;transform:scale(.8)}to{opacity:1;transform:scale(1.15)}}
+header{display:flex;justify-content:space-between;align-items:center;padding:18px clamp(16px,5vw,64px);position:relative;z-index:2}
+.brand{display:flex;align-items:center;gap:10px;font-family:'Baloo 2';font-size:1.25rem;font-weight:800}
+.brand-icon{width:44px;height:44px;display:grid;place-items:center;background:#fff;border-radius:15px;box-shadow:0 5px 0 #dfc7ff;font-size:25px}
+.header-actions{display:flex;gap:10px;align-items:center}
+.pill{border-radius:999px;padding:10px 16px;background:#fff;color:var(--ink);font-weight:800;box-shadow:0 4px 0 #dfd2f4}
+.sound{width:42px;height:42px;border-radius:50%;background:#fff;box-shadow:0 4px 0 #dfd2f4;font-size:19px}
+main{position:relative;z-index:1;max-width:1120px;margin:auto;padding:20px 22px 64px}
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:24px;align-items:center;min-height:calc(100vh - 120px)}
+.eyebrow{display:inline-block;background:#fff;border:2px solid #e9dcff;border-radius:999px;padding:8px 15px;font-weight:900;color:#7653c9;font-size:.88rem}
+h1,h2,h3,p{margin-top:0}h1{font-family:'Baloo 2';font-size:clamp(2.7rem,6vw,5.4rem);line-height:.98;margin:18px 0;color:#48347c;letter-spacing:-1px}
+h1 span{color:#f29b38;text-shadow:0 3px #fff}
+.lead{font-size:1.15rem;line-height:1.7;max-width:520px;color:#625a7c;font-weight:700}
+.primary{background:linear-gradient(180deg,#ffdc7a,#ffb84d);color:#553d24;padding:14px 26px;border-radius:18px;font-weight:900;font-size:1.08rem;box-shadow:0 6px 0 #e69a36;transition:.15s}
+.primary:hover{transform:translateY(-2px);box-shadow:0 8px 0 #e69a36}
+.secondary{background:white;color:var(--ink);padding:12px 20px;border-radius:15px;font-weight:900;box-shadow:0 4px 0 #e4d8f4}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:25px}
+.art{position:relative;min-height:400px;display:grid;place-items:center}
+.rainbow{position:absolute;width:min(92%,430px);aspect-ratio:1;border-radius:50%;background:conic-gradient(from 210deg,#ffb4c8,#ffe28a,#9de6c7,#9bd8ff,#c9b3ff,#ffb4c8);filter:saturate(.9);opacity:.7}
+.cloud{position:absolute;background:#fff;border-radius:999px;width:110px;height:35px;box-shadow:0 8px 0 #e8dcff}
+.cloud:before,.cloud:after{content:'';position:absolute;background:inherit;border-radius:50%;bottom:9px;width:45px;height:45px}.cloud:before{left:15px}.cloud:after{right:18px;width:55px;height:55px}
+.cloud.c1{top:18%;left:2%;transform:scale(.8)}.cloud.c2{bottom:14%;right:0;transform:scale(.7)}
+.magicbox{position:relative;width:230px;height:205px;background:linear-gradient(135deg,#b994ff,#7754d8);border:8px solid #5a3eaf;border-radius:28px;box-shadow:0 20px 0 #4c369a,0 30px 30px #8d6fd455;display:grid;place-items:center;transform:rotate(-4deg);animation:float 3s ease-in-out infinite}
+.magicbox:before{content:'✦';position:absolute;top:-55px;right:-32px;color:#fff;font-size:65px;text-shadow:0 0 18px #fff}
+.boxface{font-size:90px;filter:drop-shadow(0 6px 0 #4e3795)}
+.boxlid{position:absolute;top:-48px;left:12px;right:12px;height:60px;border:8px solid #5a3eaf;border-radius:20px;background:linear-gradient(135deg,#d7c5ff,#9876f0);transform:rotate(-10deg);box-shadow:0 8px 0 #6a4bc0}
+.miko{position:absolute;bottom:4%;right:4%;font-size:clamp(90px,13vw,150px);filter:drop-shadow(0 10px 0 #bba5e8);animation:float 3.4s ease-in-out infinite}
+.bubble{position:absolute;top:8%;right:3%;background:#fff;padding:13px 17px;border-radius:20px 20px 20px 4px;font-weight:900;box-shadow:0 5px 0 #e5d6ff;transform:rotate(3deg)}
+@keyframes float{50%{transform:translateY(-12px) rotate(-2deg)}}
+.section-head{text-align:center;margin:25px 0 30px}.section-head h2{font:800 clamp(2rem,4vw,3rem) 'Baloo 2';margin:8px 0}.section-head p{color:#746a90;font-weight:700}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.world{position:relative;text-align:left;padding:20px;border-radius:26px;min-height:190px;border:3px solid #ffffffaa;box-shadow:0 7px 0 #d9ccef;transition:.2s;overflow:hidden;color:var(--ink)}
+.world:hover{transform:translateY(-5px) rotate(-.5deg);box-shadow:0 12px 0 #d9ccef}
+.world .emoji{font-size:44px;display:block;margin-bottom:8px}.world h3{font:800 1.35rem 'Baloo 2';margin:0 0 4px}.world p{font-size:.92rem;font-weight:700;margin:0;opacity:.8}
+.world .grade{position:absolute;right:14px;top:14px;background:#fff9;border-radius:999px;padding:6px 10px;font-size:.78rem;font-weight:900}
+.world:after{content:'✦';position:absolute;right:15px;bottom:8px;font-size:45px;opacity:.16}
+.green{background:#c9f0b7}.yellow{background:#ffe7a1}.blue{background:#b9e6ff}.pink{background:#ffc8dc}.purple{background:#d8c7ff}.navy{background:#c4d2ff}
+.panel{background:#fffdf8;border:3px solid white;border-radius:30px;padding:clamp(20px,4vw,38px);box-shadow:0 10px 0 #e2d5f3;max-width:900px;margin:20px auto}
+.panel h2{font:800 clamp(1.8rem,4vw,2.8rem) 'Baloo 2';margin-bottom:6px}.muted{color:#7a718f;font-weight:700}
+.lesson-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:24px}
+.lesson{background:#f4edff;border:2px solid #e4d7ff;border-radius:20px;padding:18px;text-align:left;font-weight:900;color:var(--ink);font-size:1.02rem}
+.lesson:hover{background:#e9dcff}.lesson span{display:block;font-size:28px;margin-bottom:8px}
+.topline{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.question{background:#f5efff;border-radius:22px;padding:24px;text-align:center;margin:22px 0}
+.question h3{font:800 clamp(1.5rem,4vw,2.4rem) 'Baloo 2';margin:0 0 12px}
+.answers{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.answer{padding:16px;border:3px solid #e8dcff;background:white;border-radius:17px;font-size:1.2rem;font-weight:900;color:var(--ink);box-shadow:0 4px 0 #e8dcff}
+.answer:hover{background:#fff3c4}.answer.correct{background:#c9f5d4;border-color:#79c78e}.answer.wrong{background:#ffd8df;border-color:#ff9baa}
+.feedback{font-weight:900;text-align:center;min-height:28px;margin:16px 0}
+.progress{height:12px;background:#eee5ff;border-radius:99px;overflow:hidden;margin:16px 0}.progress span{display:block;height:100%;background:linear-gradient(90deg,#8b6be8,#ffbf60);width:0;transition:.3s}
+footer{text-align:center;padding:25px;color:#887e9d;font-size:.9rem;font-weight:700}
+.hidden{display:none!important}
+@media(max-width:760px){.hero{grid-template-columns:1fr;text-align:center;padding-top:24px}.lead{margin:auto}.hero-actions{justify-content:center}.art{min-height:320px;order:-1}.magicbox{transform:scale(.8)}.miko{font-size:105px}.grid{grid-template-columns:repeat(2,1fr)}.bubble{right:8%}.brand{font-size:1rem}}
+@media(max-width:480px){main{padding:12px 14px 40px}.grid,.lesson-grid{grid-template-columns:1fr}.world{min-height:150px}.header-actions .pill{display:none}.art{min-height:280px}.magicbox{transform:scale(.72)}.answers{grid-template-columns:1fr}.panel{padding:20px}.section-head{margin-top:10px}}
+</style>
+</head>
+<body>
+<div id="app">
+  <span class="bg-star" style="top:12%;left:7%">✦</span><span class="bg-star" style="top:32%;right:8%;animation-delay:.8s">✧</span><span class="bg-star" style="bottom:18%;left:8%;animation-delay:1.2s">✦</span>
+  <header>
+    <div class="brand"><div class="brand-icon">🪄</div> Magic Math Box</div>
+    <div class="header-actions"><button class="sound" id="soundBtn" aria-label="Suara">🔊</button><button class="pill" onclick="showQuiz()">📝 Kuis</button><button class="pill" onclick="goHome()">⌂ Beranda</button></div>
+  </header>
+  <main>
+    <section id="welcome" class="hero">
+      <div>
+        <span class="eyebrow">✨ PETUALANGAN MATEMATIKA</span>
+        <h1>Kotak<br><span>Matematika</span><br>Ajaib!</h1>
+        <p class="lead">Halo, teman-teman! Ada banyak petualangan matematika seru yang menunggumu. Yuk, belajar sambil bermain bersama Miko!</p>
+        <div class="hero-actions"><button class="primary" onclick="showWorlds()">Mulai Petualangan 🚀</button><button class="secondary" onclick="showInfo()">Kenali Magic Math Box</button></div>
+      </div>
+      <div class="art"><div class="rainbow"></div><div class="cloud c1"></div><div class="cloud c2"></div><div class="bubble">Ayo belajar! ⭐</div><div class="magicbox"><div class="boxlid"></div><div class="boxface">🔢</div></div><div class="miko">🐻</div></div>
+    </section>
+
+    <section id="worlds" class="hidden">
+      <div class="section-head"><span class="eyebrow">PILIH DUNIAMU</span><h2>Enam Dunia Matematika 🌈</h2><p>Pilih dunia sesuai kelasmu. Setiap dunia punya tantangan yang berbeda!</p><p id="progressSummary" class="eyebrow">⭐ Progres belajarmu: mulai petualangan pertamamu!</p><button class="secondary" onclick="showQuiz()">📝 Langsung ke Kuis</button></div>
+      <div class="grid" id="worldGrid"></div>
+    </section>
+
+    <section id="worldDetail" class="hidden">
+      <div class="panel">
+        <div class="topline"><button class="secondary" onclick="showWorlds()">← Semua Dunia</button><span class="eyebrow" id="gradeTag">KELAS 1</span></div>
+        <h2 id="worldTitle" style="margin-top:20px"></h2><p class="muted" id="worldDesc"></p>
+        <div class="lesson-grid" id="lessonGrid"></div>
+      </div>
+    </section>
+
+    <section id="learning" class="hidden">
+      <div class="panel">
+        <div class="topline"><button class="secondary" onclick="backToLessons()">← Materi</button><span class="eyebrow" id="lessonGrade"></span></div>
+        <h2 id="lessonTitle" style="margin-top:20px"></h2>
+        <p class="muted" id="lessonIntro"></p>
+        <div class="question"><div style="font-size:58px" id="lessonEmoji">🍎</div><h3 id="lessonExample"></h3><p id="lessonExplain" style="font-weight:700;line-height:1.6"></p></div>
+        <button class="primary" onclick="startGame()">Mainkan Tantangan 🎮</button>
+      </div>
+    </section>
+
+    <section id="game" class="hidden">
+      <div class="panel">
+        <div class="topline"><button class="secondary" onclick="backToLessons()">← Keluar</button><span class="eyebrow" id="gameScore">⭐ Skor: 0</span></div>
+        <div class="progress"><span id="gameProgress"></span></div>
+        <p class="muted" id="gameCount">Soal 1 dari 5</p>
+        <div class="question"><div style="font-size:45px" id="gameEmoji">🍎</div><h3 id="gameQuestion"></h3><p class="muted">Pilih jawaban yang tepat, ya!</p></div>
+        <div class="answers" id="gameAnswers"></div><div class="feedback" id="gameFeedback" aria-live="polite"></div>
+        <div class="topline"><span class="muted">Jawaban benar +20 poin</span><button class="primary hidden" id="gameNext" onclick="nextGameQuestion()">Lanjutkan →</button></div>
+      </div>
+    </section>
+
+    <section id="quiz" class="hidden">
+      <div class="panel">
+        <div class="topline"><button class="secondary" onclick="showWorlds()">← Menu Utama</button><span class="eyebrow">📝 KUIS MATEMATIKA</span></div>
+        <h2 style="margin-top:20px">Saatnya menguji kemampuanmu!</h2><p class="muted">Pilih kelas untuk memulai kuis 10 soal.</p>
+        <div class="grid" id="quizGrades"></div>
+      </div>
+    </section>
+
+    <section id="quizPlay" class="hidden">
+      <div class="panel">
+        <div class="topline"><button class="secondary" onclick="showWorlds()">← Menu Utama</button><span class="eyebrow" id="quizScore">⭐ Skor: 0</span></div>
+        <div class="progress"><span id="quizProgress"></span></div>
+        <p class="muted" id="quizCount"></p><div class="question"><h3 id="quizQuestion"></h3></div>
+        <div class="answers" id="quizAnswers"></div><div class="feedback" id="quizFeedback" aria-live="polite"></div>
+        <div class="topline"><span class="muted">Kamu pasti bisa! 💪</span><button class="primary hidden" id="quizNext" onclick="nextQuizQuestion()">Berikutnya →</button></div>
+      </div>
+    </section>
+
+    <section id="result" class="hidden">
+      <div class="panel" style="text-align:center"><div style="font-size:76px">🏆</div><h2 id="resultTitle">Hebat sekali!</h2><p class="muted" id="resultText"></p><button class="primary" onclick="showWorlds()">Kembali ke Dunia 🌈</button></div>
+    </section>
+  </main>
+  <footer>Magic Math Box · Belajar matematika jadi petualangan yang menyenangkan ✨</footer>
+</div>
+<script>
+const worlds=[
+ {grade:1,title:'Taman Angka',emoji:'🌷',color:'green',desc:'Berpetualang di taman angka bersama Miko dan Lili si kelinci.',lessons:['Mengenal Angka','Membandingkan Bilangan','Penjumlahan','Pengurangan']},
+ {grade:2,title:'Desa Berhitung',emoji:'🏡',color:'yellow',desc:'Bantu penduduk desa menghitung, berbelanja, dan berbagi dengan adil.',lessons:['Nilai Tempat Bilangan','Penjumlahan & Pengurangan','Perkalian Sederhana','Pembagian Sederhana','Uang']},
+ {grade:3,title:'Pulau Petualangan',emoji:'🏝️',color:'blue',desc:'Temukan harta karun dengan menyelesaikan tantangan matematika.',lessons:['Bilangan & Operasi Hitung','Pecahan Sederhana','Pengukuran & Geometri']},
+ {grade:4,title:'Kerajaan Pecahan',emoji:'🏰',color:'pink',desc:'Bantu raja menyelesaikan masalah di istana ajaib.',lessons:['Bilangan Cacah & Operasi','Pecahan','Faktor & Kelipatan']},
+ {grade:5,title:'Galaksi Geometri',emoji:'🚀',color:'purple',desc:'Jelajahi planet dan selesaikan misi matematika antariksa.',lessons:['Operasi Hitung Bilangan','Pecahan & Desimal']},
+ {grade:6,title:'Master Matematika',emoji:'🌆',color:'navy',desc:'Aktifkan kembali pusat energi kota dengan kemampuan matematikamu.',lessons:['Operasi Hitung Bilangan','FPB & KPK','Data & Statistik Sederhana']}
+];
+const $=id=>document.getElementById(id);let currentWorld=0,currentLesson='',gameQs=[],gameIndex=0,gameScore=0,quizQs=[],quizIndex=0,quizScore=0,quizGrade=1,locked=false,audioOn=true;
+function hideAll(){['welcome','worlds','worldDetail','learning','game','quiz','quizPlay','result'].forEach(id=>$(id).classList.add('hidden'))}
+function show(id){hideAll();$(id).classList.remove('hidden');window.scrollTo({top:0,behavior:'smooth'})}
+function goHome(){show('welcome')}
+function showWorlds(){show('worlds')}
+function showInfo(){alert('Magic Math Box adalah media belajar matematika interaktif untuk kelas 1–6 SD. Pilih dunia kelasmu, pelajari materi, lalu uji kemampuanmu lewat permainan dan kuis!')}
+function renderWorlds(){ $('worldGrid').innerHTML=worlds.map((w,i)=>`<button class="world ${w.color}" onclick="openWorld(${i})"><span class="grade">KELAS ${w.grade}</span><span class="emoji">${w.emoji}</span><h3>${w.title}</h3><p>${w.desc}</p></button>`).join('')}
+function openWorld(i){currentWorld=i;const w=worlds[i];$('gradeTag').textContent='KELAS '+w.grade;$('worldTitle').textContent=w.emoji+' Dunia '+w.grade+' — '+w.title;$('worldDesc').textContent=w.desc;$('lessonGrid').innerHTML=w.lessons.map((l,j)=>`<button class="lesson" onclick="openLesson(${j})"><span>${['🔢','🧺','✨','🍎','🧩'][j%5]}</span>${l}<small style="display:block;margin-top:8px;color:#8878aa">Belajar & bermain →</small></button>`).join('');show('worldDetail')}
+function openLesson(j){const w=worlds[currentWorld];currentLesson=w.lessons[j];$('lessonGrade').textContent='KELAS '+w.grade;$('lessonTitle').textContent=currentLesson;$('lessonIntro').textContent='Yuk, belajar '+currentLesson.toLowerCase()+' dengan cara yang seru!';let data=lessonData(currentWorld,j);$('lessonEmoji').textContent=data.emoji;$('lessonExample').textContent=data.example;$('lessonExplain').textContent=data.explain;show('learning')}
+function lessonData(w,j){let d=[
+[{emoji:'🍎',example:'1, 2, 3, … sampai 20',explain:'Angka membantu kita menghitung jumlah benda. Sentuh benda satu per satu dan sebutkan angkanya.'},{emoji:'🍐',example:'5 lebih besar dari 3',explain:'Bandingkan dua kelompok benda. Gunakan tanda > untuk lebih besar, < untuk lebih kecil, dan = untuk sama.'},{emoji:'🍎',example:'3 + 2 = 5',explain:'Gabungkan 3 apel dan 2 apel. Hitung semuanya: ada 5 apel!'}, {emoji:'🍏',example:'7 − 3 = 4',explain:'Ada 7 apel. Jika 3 diambil, tersisa 4 apel.'}],
+[{emoji:'🏠',example:'24 = 2 puluhan + 4 satuan',explain:'Angka 2 menempati puluhan dan angka 4 menempati satuan.'},{emoji:'🧺',example:'25 + 13 = 38',explain:'Jumlahkan puluhan dengan puluhan dan satuan dengan satuan.'},{emoji:'🍎',example:'4 + 4 + 4 = 12',explain:'Tiga kelompok yang masing-masing berisi 4 dapat ditulis 3 × 4 = 12.'},{emoji:'🥕',example:'12 ÷ 3 = 4',explain:'Bagikan 12 wortel sama rata kepada 3 kelinci. Setiap kelinci mendapat 4 wortel.'},{emoji:'🪙',example:'2 × Rp2.000 = Rp4.000',explain:'Dua apel seharga Rp2.000 per buah berharga Rp4.000.'}],
+[{emoji:'🪙',example:'125 + 75 = 200',explain:'Gabungkan 125 koin dan 75 koin untuk menemukan jumlahnya.'},{emoji:'🍕',example:'½ = satu dari dua bagian sama',explain:'Pecahan menunjukkan bagian dari keseluruhan yang dibagi sama besar.'},{emoji:'📏',example:'Keliling = 5 + 3 + 5 + 3',explain:'Keliling adalah jumlah panjang seluruh sisi bangun.'}],
+[{emoji:'🪙',example:'2.450 + 1.250 = 3.700',explain:'Gabungkan jumlah koin untuk menyelesaikan operasi hitung.'},{emoji:'🍰',example:'½ = 2/4 = 4/8',explain:'Pecahan senilai memiliki nilai yang sama walaupun pembilang dan penyebutnya berbeda.'},{emoji:'💎',example:'Faktor 12: 1, 2, 3, 4, 6, 12',explain:'Faktor adalah bilangan yang membagi habis bilangan lain.'}],
+[{emoji:'⛽',example:'2,5 + 1,5 = 4',explain:'Miko memiliki 2,5 liter bahan bakar lalu menambahkan 1,5 liter. Totalnya 4 liter.'},{emoji:'🚀',example:'½ = 0,5',explain:'Pecahan satu per dua sama dengan desimal nol koma lima.'}],
+[{emoji:'🌡️',example:'−2 + 7 = 5',explain:'Mulai dari suhu −2°C, lalu naik 7°C. Suhu akhirnya 5°C.'},{emoji:'🔢',example:'FPB 12 dan 18 = 6',explain:'FPB adalah faktor persekutuan terbesar dari dua bilangan.'},{emoji:'📊',example:'Rata-rata = 80',explain:'Jumlahkan semua nilai, lalu bagi dengan banyaknya data.'}]
+];return d[w][j]||{emoji:'✨',example:'Ayo berlatih matematika!',explain:'Perhatikan contoh, lalu coba tantangan berikutnya.'}}
+function makeQuestions(grade,n=5){let q=[];for(let i=0;i<n;i++){let a,b,op,ans; if(grade===1){a=[3,5,7,2,6,8][i%6];b=[2,3,1,5,4,2][i%6];op=i%2?'−':'+';ans=op==='+'?a+b:a-b;}else if(grade===2){a=[12,25,4,18,15][i%5];b=[8,13,4,6,5][i%5];op=['+','−','×','+','×'][i%5];ans=op==='+'?a+b:op==='−'?a-b:a*b;}else if(grade===3){a=[125,144,6,45,80][i%5];b=[75,12,4,15,20][i%5];op=['+','÷','×','−','+'][i%5];ans=op==='+'?a+b:op==='−'?a-b:op==='×'?a*b:a/b;}else if(grade===4){a=[2450,1,12,36,48][i%5];b=[1250,2,18,4,6][i%5];op=['+','/','FPB','÷','KPK'][i%5];ans=op==='+'?a+b:op==='/'?a/b:op==='FPB'?6:op==='÷'?a/b:12;}else if(grade===5){a=[2.5,1/2,3/4,125,4.5][i%5];b=[1.5,1/4,1/4,75,2.5][i%5];op=['+','+','+','+','+'][i%5];ans=Number((a+b).toFixed(2));}else{a=[12,4,70,80,90][i%5];b=[18,6,80,6,80][i%5];op=['FPB','KPK','+','×','rata-rata'][i%5];ans=op==='FPB'?6:op==='KPK'?12:op==='+'?a+b:op==='×'?a*b:80;}
+let text=op==='FPB'?`FPB dari ${a} dan ${b} adalah …`:op==='KPK'?`KPK dari ${a} dan ${b} adalah …`:op==='rata-rata'?`Rata-rata dari ${a}, ${b}, 90 adalah …`:`${fmt(a)} ${op} ${fmt(b)} = …`;if(op==='rata-rata')ans=Math.round((a+b+90)/3);
+let opts=new Set([ans]);while(opts.size<4){let delta=Math.floor(Math.random()*9)+1;opts.add(ans+(Math.random()>.5?delta:-delta));}let choices=[...opts].sort(()=>Math.random()-.5);q.push({text,ans,choices,emoji:['✨','🍎','⭐','🪙','🚀'][i%5]})}return q}
+function fmt(n){return Number.isInteger(n)?n:String(n).replace('.',',')}
+function startGame(){gameQs=makeQuestions(worlds[currentWorld].grade,5);gameIndex=0;gameScore=0;renderGame();show('game')}
+function renderGame(){$('gameScore').textContent='⭐ Skor: '+gameScore;$('gameCount').textContent=`Tantangan ${gameIndex+1} dari ${gameQs.length}`;$('gameProgress').style.width=(gameIndex/gameQs.length*100)+'%';$('gameEmoji').textContent=gameQs[gameIndex].emoji;$('gameQuestion').textContent=gameQs[gameIndex].text;$('gameFeedback').textContent='';$('gameNext').classList.add('hidden');$('gameAnswers').innerHTML=gameQs[gameIndex].choices.map(v=>`<button class="answer" onclick="answerGame(this,${JSON.stringify(v)})">${fmt(v)}</button>`).join('');locked=false}
+function answerGame(btn,val){if(locked)return;locked=true;const q=gameQs[gameIndex];if(Number(val)===Number(q.ans)){gameScore+=20;btn.classList.add('correct');$('gameFeedback').textContent='Hebat! Jawabanmu benar! ⭐';}else{btn.classList.add('wrong');$('gameFeedback').textContent='Belum tepat. Jawaban yang benar: '+fmt(q.ans)+'. Coba lagi di soal berikutnya!'}$('gameScore').textContent='⭐ Skor: '+gameScore;document.querySelectorAll('#gameAnswers .answer').forEach(b=>b.disabled=true);$('gameNext').classList.remove('hidden');$('gameNext').textContent=gameIndex===gameQs.length-1?'Lihat Hasil 🏆':'Lanjutkan →'}
+function nextGameQuestion(){if(gameIndex<gameQs.length-1){gameIndex++;renderGame()}else{saveProgress('games',gameScore);showResult('Permainan selesai!',`Kamu mendapat ${gameScore} dari 100 poin. Terus berlatih, petualang hebat!`)}}
+function backToLessons(){openWorld(currentWorld)}
+function showQuiz(){renderQuizGrades();show('quiz')}
+function renderQuizGrades(){$('quizGrades').innerHTML=worlds.map(w=>`<button class="world ${w.color}" onclick="startQuiz(${w.grade})"><span class="emoji">${w.emoji}</span><h3>Kelas ${w.grade}</h3><p>${w.title}</p></button>`).join('')}
+function startQuiz(g){quizGrade=g;quizQs=makeQuestions(g,10);quizIndex=0;quizScore=0;renderQuiz();show('quizPlay')}
+function renderQuiz(){$('quizScore').textContent='⭐ Skor: '+quizScore;$('quizCount').textContent=`Soal ${quizIndex+1} dari 10 · Kelas ${quizGrade}`;$('quizProgress').style.width=(quizIndex/10*100)+'%';$('quizQuestion').textContent=quizQs[quizIndex].text;$('quizFeedback').textContent='';$('quizNext').classList.add('hidden');$('quizAnswers').innerHTML=quizQs[quizIndex].choices.map(v=>`<button class="answer" onclick="answerQuiz(this,${JSON.stringify(v)})">${fmt(v)}</button>`).join('');locked=false}
+function answerQuiz(btn,val){if(locked)return;locked=true;let q=quizQs[quizIndex];if(Number(val)===Number(q.ans)){quizScore+=10;btn.classList.add('correct');$('quizFeedback').textContent='Benar! Kamu hebat! 🌟'}else{btn.classList.add('wrong');$('quizFeedback').textContent='Jawaban yang benar adalah '+fmt(q.ans)+'. Tetap semangat!'}$('quizScore').textContent='⭐ Skor: '+quizScore;document.querySelectorAll('#quizAnswers .answer').forEach(b=>b.disabled=true);$('quizNext').classList.remove('hidden');$('quizNext').textContent=quizIndex===9?'Lihat Hasil 🏆':'Berikutnya →'}
+function nextQuizQuestion(){if(quizIndex<9){quizIndex++;renderQuiz()}else{saveProgress('quizzes',quizScore);showResult('Kuis selesai! 🎉',`Nilaimu ${quizScore} dari 100. ${quizScore>=80?'Luar biasa! Kamu petualang matematika hebat!':'Terus berlatih, kamu pasti semakin hebat!'}`)}}
+function getProgress(){try{return JSON.parse(localStorage.getItem('magicMathProgress')||'{"games":0,"quizzes":0,"points":0}')}catch(e){return {games:0,quizzes:0,points:0}}}
+function saveProgress(kind,points){const p=getProgress();p[kind]=(p[kind]||0)+1;p.points=(p.points||0)+points;try{localStorage.setItem('magicMathProgress',JSON.stringify(p))}catch(e){};updateProgress()}
+function updateProgress(){const p=getProgress();const el=$('progressSummary');if(el)el.textContent=`⭐ Progresmu: ${p.games} permainan · ${p.quizzes} kuis · ${p.points} poin terkumpul`}
+function showResult(title,text){$('resultTitle').textContent=title;$('resultText').textContent=text;show('result')}
+$('soundBtn').onclick=()=>{audioOn=!audioOn;$('soundBtn').textContent=audioOn?'🔊':'🔇';$('soundBtn').title=audioOn?'Suara aktif (efek suara belum diaktifkan)':'Suara mati'};
+renderWorlds();renderQuizGrades();updateProgress();
+</script>
+</body>
+</html>
